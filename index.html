@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>Advanced Chat</title>
+	<title>Liya's Advanced Chat with Emojis and GIFs ❤️</title>
     <meta charset="utf-8"  />
     <style>
         body {
@@ -19,15 +19,14 @@
 
 <body>
     <!-- The core Firebase JS SDK is always required and must be listed first -->
-    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-firestore.js"></script>
 
-    <h1>Advanced Chat</h1>
+    <h1>Liya's Advanced Chat with Emojis and GIFs &#10024</h1>
     <ul>
-        <li>Type any text to send a message, or</li>
+        <li>Type any text here</li>
         <li>Type /giphy into the message box to send a random gif (e.g. /giphy cat)</li>
-        <li>Type characters from the UTF-8 alphabet to get emojis.</li>
-        &#128151; &#128512; &#128525; &#128516; &#128514; &#128517;
+        <li>Type characters from the UTF-8 alphabet to get emojis (e.g. &#128151; &#128512; &#128525; &#128516; &#128514; &#128517;)</li>
     </ul>
     <label>Username:</label>
     <input type="text" id="username" placeholder="">
@@ -45,18 +44,13 @@
 
      <script>
 
-        // ---------------------------------------
-        // Initialize Firebase and Firestore
-        // ---------------------------------------
-
-        // Replace with your web app's Firebase configuration
         var firebaseConfig = {
-            apiKey: "AIzaSyCzd22PWoCipek5E-7qDx-WfFmBO0hjb6g",
-            authDomain: "intro-to-webdev-chat-app.firebaseapp.com",
-            projectId: "intro-to-webdev-chat-app",
-            storageBucket: "intro-to-webdev-chat-app.appspot.com",
-            messagingSenderId: "556658533694",
-            appId: "1:556658533694:web:d26d93919b6280d7efb86f"
+            apiKey: "AIzaSyAzPFuw5VYqZxVy5VPGTGw8TycfjUp9XY4",
+            authDomain: "chat-app-by-liya.firebaseapp.com",
+            projectId: "chat-app-by-liya",
+            storageBucket: "chat-app-by-liya.appspot.com",
+            messagingSenderId: "177553384518",
+            appId: "1:177553384518:web:546ee176e1838f3e215647"
         };
 
         // Initialize our application
@@ -87,7 +81,7 @@
                 }).then(() => {
                     console.log("Message Saved!");
                 }).catch((error) => {
-                    console.log("Got and error:", error);
+                    console.log("Got an error:", error);
                 });
         }
 
@@ -99,7 +93,7 @@
             if(txt.indexOf('/giphy') == 0) {
                 console.log("String starts with the giphy command" + txt.indexOf('/giphy'))
                 
-                txt = txt.substring(7); // '/giphy ' is 7 characters long
+                txt = txt.substring(7);
 
                 url = base_url + encodeURI(txt)
             
@@ -115,44 +109,33 @@
             }
         })
 
-        // Define a function to listen for real-time updates
+        // Real-time updates
         var getRealTimeUpdates = () => {
-            
-            // All documents in our collection, messages, ordered from oldest to newest
             var collectionQuery = firestore.collection('messages').orderBy('timestamp', 'asc')
 
             collectionQuery.onSnapshot((snapshot) => {                
-                // Each snapshot contains one or more DocumentChange objects
-                // Loop through each document change
+            
                 snapshot.docChanges().forEach((docChange) => {
-
-                    // Log the document change we detected
                     console.log(docChange)
-
-                    // get the data for this document
                     var data = docChange.doc.data()
         
                     if(data.bGiphyURL) {
-                        // Create a div with this username and message IMAGE the content.
                         
-                        var div = document.createElement("DIV");   // Create a new <div> element
-                        div.innerHTML = data.username + ": "; // Insert text for our username and message
+                        var div = document.createElement("DIV");
+                        div.innerHTML = data.username + ": ";
 
                         var img = document.createElement("IMG");
                         img.src = data.txt
                         div.appendChild(img)
                         messagesContainer.appendChild(div); 
                     } else {
-                        // Create a div with this username and message TEXT the content.
-                        var div = document.createElement("DIV");   // Create a new <div> element
-                        div.innerHTML = data.username + ": " + data.txt; // Insert text for our username and message
+                        var div = document.createElement("DIV");
+                        div.innerHTML = data.username + ": " + data.txt;
                         messagesContainer.appendChild(div); 
                     }                    
                 });
             });
         }
-
-        // Call our function to start listening for real-time updates
         getRealTimeUpdates();
 
       </script>
